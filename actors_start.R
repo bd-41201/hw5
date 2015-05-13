@@ -95,7 +95,8 @@ exp(coef(regr.equiv))
 # We need to transform this number a bit in order to compare to the confidence and lift figures
 
 # First, we calculate confidence. We know that exp(beta) is interpreted as the 'odds multiplier'
-# and therefore can find the probability multiplier by taking exp(beta)/(1+exp(beta))
+# and therefore can find the probability multiplier by taking exp(beta)/(1+exp(beta)). In this
+# situation, we can interpret the p(A|B) as the confidence from apriori
 regr.equiv.conf <- exp(coef(regr.equiv))/(1+exp(coef(regr.equiv)))
 # ~>       x
 # ~> 0.88235
