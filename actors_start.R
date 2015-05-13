@@ -1,4 +1,5 @@
 ## actors network example
+## Be sure to install the arules package before trying to source the script.
 
 library(igraph)
 
@@ -12,15 +13,15 @@ actnet <- read.graph("actors.graphml",format="graphml")
 ## read in the table of actor ids for movies
 ## this is a bit complex, because the movie names
 ## contain all sorts of special characters.
-movies <- read.table("movies.txt", sep="\t", 
+movies <- read.table("movies.txt", sep="\t",
 	row.names=1, as.is=TRUE, comment.char="", quote="")
 ## it's a 1 column matrix.  treat it like a vector
 movies <- drop(as.matrix(movies))
-## each element is a comma-separated set of actor ids.  
+## each element is a comma-separated set of actor ids.
 ## use `strsplit' to break these out
 movies <- strsplit(movies,",")
 ## and finally, match ids to names from actnet
-casts <- lapply(movies, 
+casts <- lapply(movies,
 	function(m) V(actnet)$name[match(m,V(actnet)$id)])
 ## check it
 casts['True Romance']
