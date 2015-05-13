@@ -44,6 +44,45 @@ actmat <- sparseMatrix(i=as.numeric(acti),j=as.numeric(actj),
 nroles <- colSums(actmat)
 names(nroles) <- colnames(actmat)
 
+## Q2 - Plot neighborhoods for Kevin Bacon
+# First degree neighbors
+kbacon1 <- graph.neighborhood(actnet, 1, V(actnet)["Bacon, Kevin"])[[1]]
+plot(kbacon1,  edge.arrow.width=0, edge.curved=FALSE,
+     vertex.label=NA, vertex.frame.color=0, vertex.size=6)
+length(V(kbacon1))
+# ~> [1] 97
 
+# Second degree neighbors
+kbacon2 <- graph.neighborhood(actnet, 2, V(actnet)["Bacon, Kevin"])[[1]]
+#plot(kbacon1,  edge.arrow.width=0, edge.curved=FALSE,
+#     vertex.label=NA, vertex.frame.color=0, vertex.size=6)
+length(V(kbacon2))
+# ~> [1] 2129
 
+# Third degree neighbors
+kbacon3 <- graph.neighborhood(actnet, 3, V(actnet)["Bacon, Kevin"])[[1]]
+#plot(kbacon1,  edge.arrow.width=0, edge.curved=FALSE,
+#     vertex.label=NA, vertex.frame.color=0, vertex.size=6)
+length(V(kbacon3))
+V(kbacon3)$color <- "blue"
+V(kbacon2)$color <- "green"
+V(kbacon1)$color <- "red"
+
+## Q3 - Who are the most common actors
+nroles[which.max(nroles)]
+nroles.ordered <- nroles[order(-nroles)]
+head(nroles.ordered,10)
+
+# Who are the most connected actors
+actnet.degree <- degree(actnet)
+actnet.degree.ordered <- actnet.degree[order(-actnet.degree)]
+head(actnet.degree.ordered,10)
+
+## Q4 - Actor / Cast association rules
+castrules <- apriori(casttrans, parameter=list(support=.0001, confidence=.1, maxlen=2))
+inspect(castrules)
+## Choose any subset you want.
+inspect(subset(castrules, subset=support > .001 & confidence > 0.1))
+
+## Q+
 
