@@ -1,0 +1,4 @@
+# This is set to ignore the data files from upload to github
+
+actors.graphml
+movies.txt
