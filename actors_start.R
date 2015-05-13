@@ -85,4 +85,32 @@ inspect(castrules)
 inspect(subset(castrules, subset=support > .001 & confidence > 0.1))
 
 ## Q+
+y <- actmat[,"Austin, Steve (IV)"]*1
+x <- actmat[,"Foley, Mick"]*1
+# Run the regression without an intercept to force all of the signal into the beta
+regr.equiv <- glm(y~x-1,family="binomial")
+exp(coef(regr.equiv))
+# ~>        x
+# ~> 7.499789
+# We need to transform this number a bit in order to compare to the confidence and lift figures
 
+# First, we calculate confidence. We know that exp(beta) is interpreted as the 'odds multiplier'
+# and therefore can find the probability multiplier by taking exp(beta)/(1+exp(beta))
+regr.equiv.conf <- exp(coef(regr.equiv))/(1+exp(coef(regr.equiv)))
+# ~>       x
+# ~> 0.88235
+# We see that this value matches nicely with the confidence calculated by apriori
+
+# Next, we find the support for Steve Austin which is the base rate at which he appears in the set
+# This is easliy found by taking the number of roles over the total number of movies in the set
+p.a <- nroles["Austin, Steve (IV)"]/length(movies)
+# ~> Austin, Steve (IV)
+# ~>         0.00132626
+
+# Last, we calculate the lift which is the confidence in the rule divided by the support for
+# Steve Austin
+
+regr.equiv.lift <- regr.equiv.conf/p.a
+# ~> x
+# ~> 665.2919
+# Again, this matches very nicely with the figure from the apriori function
