@@ -115,3 +115,21 @@ regr.equiv.lift <- regr.equiv.conf/p.a
 # ~> x
 # ~> 665.2919
 # Again, this matches very nicely with the figure from the apriori function
+
+## ** Double Bonus - How many actors in the set are within six 'degrees' of Kevin Bacon?
+# We look at the 6 nearest neighbors neighborhood around Kevin Bacon
+kbacon6 <- graph.neighborhood(actnet, 6, V(actnet)["Bacon, Kevin"])[[1]]
+# Then we ask what share of all of the actors in this set fall within this neighborhood?
+length(V(kbacon6))/length(V(actnet))
+# ~> [1] 0.9890235
+# So we find that there is some evidence to support the six degrees of Kevin Bacon
+
+# What about Brad Pitt?
+bpitt6 <- graph.neighborhood(actnet, 6, V(actnet)["Pitt, Brad"])[[1]]
+length(V(bpitt6))/length(V(actnet))
+# ~> [1] 0.9890235
+# Exactly the same, so it seems that maybe any actor would connect with most other actors
+# if you allow for six degrees of freedom.
+
+# There is an interesting analysis here on who the center of the Hollywood universe is:
+# https://oracleofbacon.org/center.php
